@@ -85,5 +85,5 @@ def process_audio():
         except sr.RequestError:
             return "Could not request results; check your internet connection"
 
-if __name__ == "__main__":
-    app.run(debug=True)
+# if __name__ == "__main__":
+#     app.run(debug=True)
