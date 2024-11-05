@@ -11,7 +11,7 @@ idna==3.10
 itsdangerous==2.2.0
 Jinja2==3.1.4
 MarkupSafe==3.0.2
-PyAudio==0.2.14
+pyaudio==0.2.11
 requests==2.32.3
 setuptools==75.3.0
 SpeechRecognition==3.10.3
