@@ -8,6 +8,13 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key'
 Bootstrap(app)
 
+# Try to import PyAudio-dependent functionality, handle if unavailable
+try:
+    import pyaudio
+    has_pyaudio = True
+except ImportError:
+    has_pyaudio = False
+
 @app.route('/')
 def home():
     return render_template('home.html')
@@ -30,12 +37,12 @@ def audio_text():
             return "No selected file"
 
         # Save the uploaded file temporarily
-        temp_file_path = "temp_audio_file"  # You can use a specific extension like ".wav" if needed
+        temp_file_path = "temp_audio_file.wav"  # Specify extension as required by SpeechRecognition
         file.save(temp_file_path)
 
         try:
             with sr.AudioFile(temp_file_path) as source:
-                audio_data = r.record(source)  # Use r.record() to read the entire audio file
+                audio_data = r.record(source)  # Read the entire audio file
                 text = r.recognize_google(audio_data)
                 return render_template("audio_text.html", text=text)
         except sr.UnknownValueError:
@@ -71,11 +78,13 @@ def real_time():
 
 @app.route('/process_audio', methods=['POST'])
 def process_audio():
-    r = sr.Recognizer()
+    if not has_pyaudio:
+        return "Real-time audio processing is not available in production."
 
+    r = sr.Recognizer()
     with sr.Microphone() as source:
         print("Give Command, Sir..!!")
-        audio_text = r.listen(source)  # listening the speech and store in audio_text variable
+        audio_text = r.listen(source)  # Listen and store in audio_text variable
         print("Analyzing Speech, thanks")
         try:
             recognized_text = r.recognize_google(audio_text)
@@ -84,6 +93,3 @@ def process_audio():
             return "Sorry, I did not get that, Please repeat"
         except sr.RequestError:
             return "Could not request results; check your internet connection"
-
-# if __name__ == "__main__":
-#     app.run(debug=True)
