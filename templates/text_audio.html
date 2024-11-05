@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text to Audio Converter</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-image: url('{{ url_for('static', filename='images/text_audio.jpg') }}'); /* Path to your background image */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            margin-top: 50px;
+            padding: 30px;
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .form-label {
+            font-weight: bold;
+            color: #333;
+        }
+        .form-control {
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+        .btn-primary:hover, .btn-secondary:hover {
+            background-color: #0056b3;
+            border-color: #004682;
+        }
+        .mt-3 {
+            margin-top: 15px;
+        }
+        audio {
+            width: 100%;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Text to Audio Converter</h1>
+        <form action="/text_audio" method="POST">
+            <div class="form-group">
+                <label for="input_text" class="form-label">Enter the text to convert:</label>
+                <textarea id="input_text" name="input_text" class="form-control" rows="5" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Convert Text to Audio</button>
+            <a href="/" class="btn btn-secondary">Go Back</a>
+        </form>
+        {% if audio_file %}
+            <!-- Download link for the audio file -->
+            <p class="mt-3"><a href="{{ audio_file }}" download class="btn btn-success">Download Audio File</a></p>
+            <!-- Audio preview -->
+            <audio controls class="mt-3">
+                <source src="{{ audio_file }}" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        {% endif %}
+    </div>
+</body>
+</html>

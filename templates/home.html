@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SoundCraft</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-image: url('{{ url_for('static', filename='images/background_image.jpeg') }}'); /* Adjust the path to match your directory structure */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">SoundCraft</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('audio_text') }}">Audio To Text</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('real_time') }}">Realtime Audio Conversion</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('text_audio') }}">Text To Audio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('help') }}">Help</a>
+                </li>
+                
+                <!-- <li class="nav-item">
+                    <a class="nav-link" href="#">Logout</a>
+                </li> -->
+            </ul>
+        </div>
+    </nav>
+    <div class="container mt-5">
+        <h1 class="text-center text-blue">Welcome to SoundCraft</h1>
+        <h2 class="text-center text-white">Convert Audio To Text and Text To Audio</h2>
+    </div>
+</body>
+</html>
