@@ -4,7 +4,6 @@ import speech_recognition as sr
 from gtts import gTTS
 import os
 
-
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key'
 Bootstrap(app)
@@ -16,7 +15,6 @@ def home():
 # Define the 'help' route
 @app.route("/help")
 def help():
-    # Add your help page logic here
     return render_template("help.html")
 
 @app.route('/audio_text', methods=['GET', 'POST'])
@@ -31,17 +29,26 @@ def audio_text():
         if file.filename == '':
             return "No selected file"
 
+        # Save the uploaded file temporarily
+        temp_file_path = "temp_audio_file"  # You can use a specific extension like ".wav" if needed
+        file.save(temp_file_path)
+
         try:
-            with sr.AudioFile(file) as source:
-                audio_text = r.listen(source)
-                text = r.recognize_google(audio_text)
+            with sr.AudioFile(temp_file_path) as source:
+                audio_data = r.record(source)  # Use r.record() to read the entire audio file
+                text = r.recognize_google(audio_data)
                 return render_template("audio_text.html", text=text)
         except sr.UnknownValueError:
             return "Error: Unable to recognize audio"
         except sr.RequestError:
             return "Error: Could not request results; check your internet connection"
+        except Exception as e:
+            return f"Error: {e}"
+        finally:
+            # Clean up temporary file
+            if os.path.exists(temp_file_path):
+                os.remove(temp_file_path)
 
-    # If the method is GET, render the audio_text.html template without processing audio
     return render_template("audio_text.html")
 
 @app.route('/text_audio', methods=['GET', 'POST'])
@@ -57,7 +64,6 @@ def text_audio():
 def text_to_audio(text, output_file):
     tts = gTTS(text)
     tts.save(output_file)
-
 
 @app.route('/real_time')
 def real_time():
