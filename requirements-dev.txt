@@ -1,0 +1,2 @@
+# requirements-dev.txt
+pyaudio==0.2.11
